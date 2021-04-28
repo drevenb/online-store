@@ -12,4 +12,4 @@ https://www.postgresql.org/download/
   **bd.url** со значением  *jdbc:postgresql://localhost:5432/{insert your database name}*   
   **bd.username** с именем вашего пользователя в базе данных  
   **bd.password** с паролем, который вы установили для подключения к вашей базе данных 
-8) В окне браузера перейти по адресу: http://localhost:8082/swagger-ui/
+8) После запуска проекта в окне браузера перейти по адресу: http://localhost:8082/swagger-ui/

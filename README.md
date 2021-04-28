@@ -11,4 +11,5 @@ https://www.postgresql.org/download/
 7) Создаем 3 новые переменные:  
   **bd.url** со значением  *jdbc:postgresql://localhost:5432/{insert your database name}*   
   **bd.username** с именем вашего пользователя в базе данных  
-  **bd.password** с паролем, который вы установили для подключения к вашей базе данных  
+  **bd.password** с паролем, который вы установили для подключения к вашей базе данных 
+8) В окне браузера перейти по адресу: http://localhost:8082/hello

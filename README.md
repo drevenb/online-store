@@ -9,6 +9,6 @@ https://www.postgresql.org/download/
 5) В Intellij IDEA создать проект с имеющегося репозитория: **File -> New -> Project from Version Control**
 6) После создания проекта в Intellij IDEA перейти в меню **Edit configurations...** и настроить переменные среды(**Environment variables**) 
 7) Создаем 3 новые переменные:  
-  **bd.url** со значением jdbc:postgresql://localhost:5432/{insert your database name}  
+  **bd.url** со значением * *jdbc:postgresql://localhost:5432/{insert your database name}* *  
   **bd.username** с именем вашего пользователя в базе данных  
   **bd.password** с паролем, который вы установили для подключения к вашей базе данных  

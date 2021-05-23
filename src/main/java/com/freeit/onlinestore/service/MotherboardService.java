@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface MotherboardService {
 
     Page<MotherboardDto> getAllMotherboards(Pageable pageable);
+
+    MotherboardDto getMotherboard(Long id);
 }

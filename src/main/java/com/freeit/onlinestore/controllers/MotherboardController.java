@@ -1,6 +1,7 @@
 package com.freeit.onlinestore.controllers;
 
-import com.freeit.onlinestore.dto.MotherboardDto;
+import com.freeit.onlinestore.dto.req.NewMotherboardDto;
+import com.freeit.onlinestore.dto.resp.MotherboardDto;
 import com.freeit.onlinestore.service.MotherboardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,9 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +24,33 @@ public class MotherboardController {
     @GetMapping
     public ResponseEntity<Page<MotherboardDto>> getMotherboards(Pageable pageable) {
         return new ResponseEntity<>(motherboardService.getAllMotherboards(pageable), HttpStatus.OK);
+    }
+
+    @ApiOperation("Method to get a motherboard by Id")
+    @GetMapping("/{id}")
+    public ResponseEntity<MotherboardDto> getMotherboardById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(motherboardService.getMotherboard(id), HttpStatus.OK);
+    }
+
+    @ApiOperation("Method to update a motherboard")
+    @PutMapping("/{id}")
+    public ResponseEntity<MotherboardDto> updateMotherboard(@PathVariable("id") Long id,
+                                                            @RequestBody NewMotherboardDto board) {
+        return new ResponseEntity<>(motherboardService.updateMotherboard(id, board), HttpStatus.OK);
+    }
+
+    @ApiOperation("Method to delete a motherboard")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMotherboard(@PathVariable("id") Long id) {
+        if(!motherboardService.deleteMotherboard(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation("Method to create a motherboard")
+    @PostMapping
+    public ResponseEntity<MotherboardDto> createMotherboard(@RequestBody NewMotherboardDto newBoard) {
+        return new ResponseEntity<>(motherboardService.saveMotherboard(newBoard), HttpStatus.OK);
     }
 }

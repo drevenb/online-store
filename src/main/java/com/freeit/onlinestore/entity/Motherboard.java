@@ -4,9 +4,7 @@ import com.freeit.onlinestore.model.FormFactor;
 import com.freeit.onlinestore.model.MemoryType;
 import com.freeit.onlinestore.model.MotherboardProducer;
 import com.freeit.onlinestore.model.Socket;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="motherboard")
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Motherboard extends AbstractEntity {
     @Column(name="memory_slots")

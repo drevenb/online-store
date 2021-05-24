@@ -1,6 +1,7 @@
 package com.freeit.onlinestore.service.impl;
 
-import com.freeit.onlinestore.dto.MotherboardDto;
+import com.freeit.onlinestore.dto.req.NewMotherboardDto;
+import com.freeit.onlinestore.dto.resp.MotherboardDto;
 import com.freeit.onlinestore.entity.Motherboard;
 import com.freeit.onlinestore.exception.DBNotFoundException;
 import com.freeit.onlinestore.repository.MotherboardRepository;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,14 +35,44 @@ public class MotherboardServiceImpl implements MotherboardService {
 
     @Override
     public MotherboardDto getMotherboard(Long id) {
-        Optional<Motherboard> optionalMotherboard = motherboardRepository.findById(id);
+        Motherboard board = motherboardRepository.findById(id)
+                .orElseThrow(() -> new DBNotFoundException("There is not such element in database"));
 
-        if(optionalMotherboard.isPresent()) {
-            Motherboard board = optionalMotherboard.get();
-            return new MotherboardDto(board.getId(), board.getMemorySlots(), board.getFormFactor(),
+        return new MotherboardDto(board.getId(), board.getMemorySlots(), board.getFormFactor(),
                     board.getMemoryType(), board.getMotherboardProducer(), board.getSocket());
-        } else {
-            throw new DBNotFoundException("There is not such element in database");
+    }
+
+    @Override
+    public MotherboardDto updateMotherboard(Long id, NewMotherboardDto newBoard) {
+        Motherboard motherboard = motherboardRepository.findById(id)
+                .orElseThrow(() -> new DBNotFoundException("There is not such element in database"));
+
+        motherboard.setSocket(newBoard.getSocket());
+        motherboard.setMotherboardProducer(newBoard.getMotherboardProducer());
+        motherboard.setFormFactor(newBoard.getFormFactor());
+        motherboard.setMemorySlots(newBoard.getMemorySlots());
+        motherboard.setMemoryType(newBoard.getMemoryType());
+
+        Motherboard updatedBoard = motherboardRepository.save(motherboard);
+        return new MotherboardDto(updatedBoard.getId(), updatedBoard.getMemorySlots(), updatedBoard.getFormFactor(),
+                updatedBoard.getMemoryType(), updatedBoard.getMotherboardProducer(), updatedBoard.getSocket());
+    }
+
+    @Override
+    public boolean deleteMotherboard(Long id) {
+        if(!motherboardRepository.existsById(id)) {
+            return false;
         }
+        motherboardRepository.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public MotherboardDto saveMotherboard(NewMotherboardDto newBoard) {
+        Motherboard newMotherboard = new Motherboard(newBoard.getMemorySlots(), newBoard.getSocket(),
+                newBoard.getFormFactor(), newBoard.getMemoryType(), newBoard.getMotherboardProducer());
+        Motherboard motherboard = motherboardRepository.save(newMotherboard);
+        return new MotherboardDto(motherboard.getId(), motherboard.getMemorySlots(), motherboard.getFormFactor(),
+                motherboard.getMemoryType(), motherboard.getMotherboardProducer(), motherboard.getSocket());
     }
 }

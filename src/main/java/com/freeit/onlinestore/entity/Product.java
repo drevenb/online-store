@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -42,4 +43,10 @@ public class Product extends AbstractEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ram_id")
     private Ram ram;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "ordering_product",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "ordering_id"))
+    private List<Order> orders;
 }

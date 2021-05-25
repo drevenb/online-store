@@ -15,6 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Motherboard extends AbstractEntity {
+
     @Column(name="memory_slots")
     private Integer memorySlots;
 

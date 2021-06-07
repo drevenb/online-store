@@ -17,26 +17,26 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 public class Videocard extends AbstractEntity {
 
-    @Column(name="graphic_processor")
+    @Column(name="graphic_processor", nullable = false)
     private String graphicProcessor;
 
-    @Column(name="memory_size")
+    @Column(name="memory_size", nullable = false)
     private Integer memorySize;
 
-    @Column(name="memory_buswidth")
+    @Column(name="memory_buswidth", nullable = false)
     private Integer memoryBuswidth;
 
-    @Column(name="memory_frequency")
+    @Column(name="memory_frequency", nullable = false)
     private Integer memoryFrequency;
 
-    @Column(name="processor_frequency")
+    @Column(name="processor_frequency", nullable = false)
     private Integer processorFrequency;
 
-    @Column(name="video_memory_type")
+    @Column(name="video_memory_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private VideoMemoryType memoryType;
 
-    @Column(name="producer")
+    @Column(name="producer", nullable = false)
     @Enumerated(EnumType.STRING)
     private VideocardProducer producer;
 }

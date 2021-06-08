@@ -7,6 +7,9 @@ import com.freeit.onlinestore.model.Socket;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 
 @Data
 @Entity
@@ -34,4 +37,13 @@ public class Motherboard extends AbstractEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MotherboardProducer motherboardProducer;
+
+    @Column
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 5, fraction = 2)
+    private double price;
+
+    @Column
+    @Min(value = 0)
+    private Integer remainder;
 }

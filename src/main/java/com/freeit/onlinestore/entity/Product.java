@@ -19,15 +19,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Product extends AbstractEntity {
 
-    @Column
-    @DecimalMin(value = "0.0", inclusive = false)
-    @Digits(integer = 5, fraction = 2)
-    private double price;
-
-    @Column
-    @Min(value = 0)
-    private int remainder;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "motherboard_id")
     private Motherboard motherboard;

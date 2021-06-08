@@ -15,4 +15,6 @@ public class NewMotherboardDto {
     private MemoryType memoryType;
     private MotherboardProducer motherboardProducer;
     private Socket socket;
+    private double price;
+    private Integer remainder;
 }

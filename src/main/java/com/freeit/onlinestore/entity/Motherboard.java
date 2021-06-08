@@ -22,19 +22,19 @@ public class Motherboard extends AbstractEntity {
     @Column(name="memory_slots")
     private Integer memorySlots;
 
-    @Column(nullable = false)
+    @Column
     @Enumerated(EnumType.STRING)
     private Socket socket;
 
-    @Column(nullable = false)
+    @Column(name="form_factor")
     @Enumerated(EnumType.STRING)
     private FormFactor formFactor;
 
-    @Column(nullable = false)
+    @Column(name="memory_type")
     @Enumerated(EnumType.STRING)
     private MemoryType memoryType;
 
-    @Column(nullable = false)
+    @Column(name="producer")
     @Enumerated(EnumType.STRING)
     private MotherboardProducer motherboardProducer;
 

@@ -8,11 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class MotherboardDto {
-    private Long id;
+    private UUID id;
     private Integer memorySlots;
     private FormFactor formFactor;
     private MemoryType memoryType;

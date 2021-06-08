@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +36,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
-    public MotherboardDto getMotherboard(Long id) {
+    public MotherboardDto getMotherboard(UUID id) {
         Motherboard board = motherboardRepository.findById(id)
                 .orElseThrow(() -> new DBNotFoundException("There is not such element in database"));
 
@@ -44,7 +45,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
-    public MotherboardDto updateMotherboard(Long id, NewMotherboardDto newBoard) {
+    public MotherboardDto updateMotherboard(UUID id, NewMotherboardDto newBoard) {
         Motherboard motherboard = motherboardRepository.findById(id)
                 .orElseThrow(() -> new DBNotFoundException("There is not such element in database"));
 
@@ -60,7 +61,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     }
 
     @Override
-    public boolean deleteMotherboard(Long id) {
+    public boolean deleteMotherboard(UUID id) {
         if(!motherboardRepository.existsById(id)) {
             return false;
         }

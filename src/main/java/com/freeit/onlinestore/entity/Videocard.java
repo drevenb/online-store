@@ -8,6 +8,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 
 @Data
 @Entity
@@ -39,4 +42,13 @@ public class Videocard extends AbstractEntity {
     @Column(name="producer", nullable = false)
     @Enumerated(EnumType.STRING)
     private VideocardProducer producer;
+
+    @Column
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 5, fraction = 2)
+    private double price;
+
+    @Column
+    @Min(value = 0)
+    private Integer remainder;
 }

@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @Api(tags="Controller for motherboards")
@@ -28,20 +30,20 @@ public class MotherboardController {
 
     @ApiOperation("Method to get a motherboard by Id")
     @GetMapping("/{id}")
-    public ResponseEntity<MotherboardDto> getMotherboardById(@PathVariable("id") Long id) {
+    public ResponseEntity<MotherboardDto> getMotherboardById(@PathVariable("id") UUID id) {
         return new ResponseEntity<>(motherboardService.getMotherboard(id), HttpStatus.OK);
     }
 
     @ApiOperation("Method to update a motherboard")
     @PutMapping("/{id}")
-    public ResponseEntity<MotherboardDto> updateMotherboard(@PathVariable("id") Long id,
+    public ResponseEntity<MotherboardDto> updateMotherboard(@PathVariable("id") UUID id,
                                                             @RequestBody NewMotherboardDto board) {
         return new ResponseEntity<>(motherboardService.updateMotherboard(id, board), HttpStatus.OK);
     }
 
     @ApiOperation("Method to delete a motherboard")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMotherboard(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteMotherboard(@PathVariable("id") UUID id) {
         if(!motherboardService.deleteMotherboard(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

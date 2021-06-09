@@ -27,8 +27,8 @@ public class MotherboardServiceImpl implements MotherboardService {
     public PageImpl getAllMotherboards(Pageable pageable) {
         List<Motherboard> motherboardList = motherboardRepository.findAll();
         List<MotherboardDto> motherboardDto = motherboardList.stream()
-                .map(board -> new MotherboardDto(board.getId(), board.getMemorySlots(), board.getFormFactor(), board.getMemoryType(),
-                        board.getMotherboardProducer(), board.getSocket(), board.getPrice(), board.getRemainder()))
+                .map(board -> new MotherboardDto(board.getId(), board.getName(), board.getMemorySlots(), board.getFormFactor(), board.getMemoryType(),
+                        board.getProducer(), board.getSocket(), board.getPrice(), board.getRemainder()))
                 .collect(Collectors.toList());
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), motherboardDto.size());
@@ -40,8 +40,8 @@ public class MotherboardServiceImpl implements MotherboardService {
         Motherboard board = motherboardRepository.findById(id)
                 .orElseThrow(() -> new DBNotFoundException("There is not such element in database"));
 
-        return new MotherboardDto(board.getId(), board.getMemorySlots(), board.getFormFactor(), board.getMemoryType(),
-                board.getMotherboardProducer(), board.getSocket(), board.getPrice(), board.getRemainder());
+        return new MotherboardDto(board.getId(), board.getName(), board.getMemorySlots(), board.getFormFactor(), board.getMemoryType(),
+                board.getProducer(), board.getSocket(), board.getPrice(), board.getRemainder());
     }
 
     @Override
@@ -50,14 +50,14 @@ public class MotherboardServiceImpl implements MotherboardService {
                 .orElseThrow(() -> new DBNotFoundException("There is not such element in database"));
 
         motherboard.setSocket(newBoard.getSocket());
-        motherboard.setMotherboardProducer(newBoard.getMotherboardProducer());
+        motherboard.setProducer(newBoard.getProducer());
         motherboard.setFormFactor(newBoard.getFormFactor());
         motherboard.setMemorySlots(newBoard.getMemorySlots());
         motherboard.setMemoryType(newBoard.getMemoryType());
 
         Motherboard updatedBoard = motherboardRepository.save(motherboard);
-        return new MotherboardDto(updatedBoard.getId(), updatedBoard.getMemorySlots(), updatedBoard.getFormFactor(), updatedBoard.getMemoryType(),
-                updatedBoard.getMotherboardProducer(), updatedBoard.getSocket(), updatedBoard.getPrice(), updatedBoard.getRemainder());
+        return new MotherboardDto(updatedBoard.getId(), updatedBoard.getName(), updatedBoard.getMemorySlots(), updatedBoard.getFormFactor(), updatedBoard.getMemoryType(),
+                updatedBoard.getProducer(), updatedBoard.getSocket(), updatedBoard.getPrice(), updatedBoard.getRemainder());
     }
 
     @Override
@@ -71,10 +71,10 @@ public class MotherboardServiceImpl implements MotherboardService {
 
     @Override
     public MotherboardDto saveMotherboard(NewMotherboardDto newBoard) {
-        Motherboard newMotherboard = new Motherboard(newBoard.getMemorySlots(), newBoard.getSocket(), newBoard.getFormFactor(),
-                newBoard.getMemoryType(), newBoard.getMotherboardProducer(), newBoard.getPrice(), newBoard.getRemainder());
+        Motherboard newMotherboard = new Motherboard(newBoard.getName(), newBoard.getMemorySlots(), newBoard.getSocket(), newBoard.getFormFactor(),
+                newBoard.getMemoryType(), newBoard.getProducer(), newBoard.getPrice(), newBoard.getRemainder());
         Motherboard motherboard = motherboardRepository.save(newMotherboard);
-        return new MotherboardDto(motherboard.getId(), motherboard.getMemorySlots(), motherboard.getFormFactor(), motherboard.getMemoryType(),
-                motherboard.getMotherboardProducer(), motherboard.getSocket(), motherboard.getPrice(), motherboard.getRemainder());
+        return new MotherboardDto(motherboard.getId(), motherboard.getName(), motherboard.getMemorySlots(), motherboard.getFormFactor(), motherboard.getMemoryType(),
+                motherboard.getProducer(), motherboard.getSocket(), motherboard.getPrice(), motherboard.getRemainder());
     }
 }

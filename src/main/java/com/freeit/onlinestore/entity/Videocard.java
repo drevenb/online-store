@@ -20,8 +20,8 @@ import javax.validation.constraints.Min;
 @EqualsAndHashCode(callSuper = true)
 public class Videocard extends AbstractEntity {
 
-    @Column(name="graphic_processor", nullable = false)
-    private String graphicProcessor;
+    @Column(name="name", nullable = false)
+    private String name;
 
     @Column(name="memory_size", nullable = false)
     private Integer memorySize;
@@ -35,7 +35,7 @@ public class Videocard extends AbstractEntity {
     @Column(name="processor_frequency", nullable = false)
     private Integer processorFrequency;
 
-    @Column(name="video_memory_type", nullable = false)
+    @Column(name="memory_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private VideoMemoryType memoryType;
 

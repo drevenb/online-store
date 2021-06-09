@@ -19,24 +19,27 @@ import javax.validation.constraints.Min;
 @EqualsAndHashCode(callSuper = true)
 public class Motherboard extends AbstractEntity {
 
+    @Column(name="name", nullable = false)
+    private String name;
+
     @Column(name="memory_slots")
     private Integer memorySlots;
 
-    @Column(nullable = false)
+    @Column
     @Enumerated(EnumType.STRING)
     private Socket socket;
 
-    @Column(nullable = false)
+    @Column(name="form_factor")
     @Enumerated(EnumType.STRING)
     private FormFactor formFactor;
 
-    @Column(nullable = false)
+    @Column(name="memory_type")
     @Enumerated(EnumType.STRING)
     private MemoryType memoryType;
 
-    @Column(nullable = false)
+    @Column(name="producer", nullable = false)
     @Enumerated(EnumType.STRING)
-    private MotherboardProducer motherboardProducer;
+    private MotherboardProducer producer;
 
     @Column
     @DecimalMin(value = "0.0", inclusive = false)

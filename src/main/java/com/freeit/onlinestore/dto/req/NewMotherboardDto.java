@@ -10,10 +10,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class NewMotherboardDto {
+    private String name;
     private Integer memorySlots;
     private FormFactor formFactor;
     private MemoryType memoryType;
-    private MotherboardProducer motherboardProducer;
+    private MotherboardProducer producer;
     private Socket socket;
     private double price;
     private Integer remainder;

@@ -19,10 +19,11 @@ create table customer
 create table motherboard
 (
     id                   uuid         not null,
+    name                 varchar(255) not null,
     form_factor          varchar(255) not null,
     memory_slots         integer,
     memory_type          varchar(255) not null,
-    motherboard_producer varchar(255) not null,
+    producer             varchar(255) not null,
     price                double precision,
     remainder            integer,
     socket               varchar(255) not null,
@@ -48,6 +49,7 @@ create table ordering_product
 create table processor
 (
     id                 uuid         not null,
+    name               varchar(255) not null,
     cores_quantity     integer,
     frequency          integer,
     price              double precision,
@@ -70,6 +72,7 @@ create table product
 create table ram
 (
     id               uuid         not null,
+    name             varchar(255) not null,
     latency          varchar(255) not null,
     memory_frequency integer      not null,
     memory_size      integer      not null,
@@ -83,11 +86,11 @@ create table ram
 create table videocard
 (
     id                  uuid         not null,
-    graphic_processor   varchar(255) not null,
+    name                varchar(255) not null,
     memory_buswidth     integer      not null,
     memory_frequency    integer      not null,
     memory_size         integer      not null,
-    video_memory_type   varchar(255) not null,
+    memory_type         varchar(255) not null,
     price               double precision,
     processor_frequency integer      not null,
     producer            varchar(255) not null,

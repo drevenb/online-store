@@ -20,6 +20,9 @@ import javax.validation.constraints.Min;
 @EqualsAndHashCode(callSuper = true)
 public class Ram extends AbstractEntity {
 
+    @Column(name="name", nullable = false)
+    private String name;
+
     @Column(name="memory_size", nullable = false)
     private Integer memorySize;
 
@@ -33,7 +36,7 @@ public class Ram extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private MemoryType memoryType;
 
-    @Column(nullable = false)
+    @Column(name="producer", nullable = false)
     @Enumerated(EnumType.STRING)
     private RamProducer producer;
 

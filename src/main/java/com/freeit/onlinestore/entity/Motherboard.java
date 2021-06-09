@@ -19,6 +19,9 @@ import javax.validation.constraints.Min;
 @EqualsAndHashCode(callSuper = true)
 public class Motherboard extends AbstractEntity {
 
+    @Column(name="name", nullable = false)
+    private String name;
+
     @Column(name="memory_slots")
     private Integer memorySlots;
 
@@ -34,9 +37,9 @@ public class Motherboard extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private MemoryType memoryType;
 
-    @Column(name="producer")
+    @Column(name="producer", nullable = false)
     @Enumerated(EnumType.STRING)
-    private MotherboardProducer motherboardProducer;
+    private MotherboardProducer producer;
 
     @Column
     @DecimalMin(value = "0.0", inclusive = false)

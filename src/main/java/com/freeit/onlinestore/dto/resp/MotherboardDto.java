@@ -15,10 +15,11 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = false)
 public class MotherboardDto {
     private UUID id;
+    private String name;
     private Integer memorySlots;
     private FormFactor formFactor;
     private MemoryType memoryType;
-    private MotherboardProducer motherboardProducer;
+    private MotherboardProducer producer;
     private Socket socket;
     private double price;
     private Integer remainder;

@@ -9,5 +9,6 @@ public enum VideocardProducer {
     NVIDIA,
     XFX,
     ZOTAC,
-    POWERCOLOR
+    POWERCOLOR,
+    ASROCK
 }

@@ -20,6 +20,9 @@ import javax.validation.constraints.Min;
 @EqualsAndHashCode(callSuper = true)
 public class Processor extends AbstractEntity {
 
+    @Column(name="name", nullable = false)
+    private String name;
+
     @Column(name="cores_quantity")
     private Integer coresQuantity;
 
@@ -30,7 +33,7 @@ public class Processor extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Socket socket;
 
-    @Column(name="processor_producer", nullable = false)
+    @Column(name="producer", nullable = false)
     @Enumerated(EnumType.STRING)
     private ProcessorProducer producer;
 

@@ -3,8 +3,10 @@ package com.freeit.onlinestore.service.impl;
 import com.freeit.onlinestore.dto.req.NewMotherboardDto;
 import com.freeit.onlinestore.dto.resp.MotherboardDto;
 import com.freeit.onlinestore.entity.Motherboard;
+import com.freeit.onlinestore.entity.Product;
 import com.freeit.onlinestore.exception.DBNotFoundException;
 import com.freeit.onlinestore.repository.MotherboardRepository;
+import com.freeit.onlinestore.repository.ProductRepository;
 import com.freeit.onlinestore.service.MotherboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -19,8 +22,10 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class MotherboardServiceImpl implements MotherboardService {
 
+    private final ProductRepository productRepository;
     private final MotherboardRepository motherboardRepository;
 
     @Override
@@ -63,9 +68,9 @@ public class MotherboardServiceImpl implements MotherboardService {
     @Override
     public boolean deleteMotherboard(UUID id) {
         if(!motherboardRepository.existsById(id)) {
-            return false;
+            throw new DBNotFoundException("There is not such element in database");
         }
-        motherboardRepository.deleteById(id);
+        productRepository.deleteByMotherboard_Id(id);
         return true;
     }
 
@@ -74,6 +79,8 @@ public class MotherboardServiceImpl implements MotherboardService {
         Motherboard newMotherboard = new Motherboard(newBoard.getName(), newBoard.getMemorySlots(), newBoard.getSocket(), newBoard.getFormFactor(),
                 newBoard.getMemoryType(), newBoard.getProducer(), newBoard.getPrice(), newBoard.getRemainder());
         Motherboard motherboard = motherboardRepository.save(newMotherboard);
+        Product product = new Product(newMotherboard, null, null, null, null);
+        productRepository.save(product);
         return new MotherboardDto(motherboard.getId(), motherboard.getName(), motherboard.getMemorySlots(), motherboard.getFormFactor(), motherboard.getMemoryType(),
                 motherboard.getProducer(), motherboard.getSocket(), motherboard.getPrice(), motherboard.getRemainder());
     }

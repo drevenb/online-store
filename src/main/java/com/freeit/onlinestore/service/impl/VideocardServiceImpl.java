@@ -37,6 +37,7 @@ public class VideocardServiceImpl implements VideocardService {
     @Override
     public PageImpl getAllVideocards(Pageable pageable) {
         List<VideocardDto> videocardDtoList = videocardMapper.toDto(videocardRepository.findAll());
+        log.debug("Videocard Dto List: {}", videocardDtoList);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), videocardDtoList.size());
         return new PageImpl<>(videocardDtoList.subList(start, end), pageable, videocardDtoList.size());
@@ -46,6 +47,7 @@ public class VideocardServiceImpl implements VideocardService {
     public VideocardDto getVideocard(UUID uuid) {
         Videocard videocard = videocardRepository.findById(uuid)
                 .orElseThrow(() -> new DBNotFoundException(NOT_FOUND_MESSAGE));
+        log.debug("Videocard is found: {}", videocard);
         return videocardMapper.toDto(videocard);
     }
 
@@ -53,6 +55,8 @@ public class VideocardServiceImpl implements VideocardService {
     public VideocardDto updateVideocard(UUID uuid, NewVideocardDto newVideocardDto) {
         Videocard videocard = videocardRepository.findById(uuid)
                 .orElseThrow(() -> new DBNotFoundException(NOT_FOUND_MESSAGE));
+
+        log.debug("Videocard is ready to update: {}", videocard);
 
         videocard.setName(newVideocardDto.getName());
         videocard.setMemorySize(newVideocardDto.getMemorySize());
@@ -65,6 +69,7 @@ public class VideocardServiceImpl implements VideocardService {
         videocard.setRemainder(newVideocardDto.getRemainder());
 
         Videocard updatedVideocard = videocardRepository.save(videocard);
+        log.debug("Videocard is updated: {}", updatedVideocard);
         return videocardMapper.toDto(updatedVideocard);
     }
 
@@ -73,7 +78,7 @@ public class VideocardServiceImpl implements VideocardService {
         if(!videocardRepository.existsById(uuid)) {
             throw new DBNotFoundException(NOT_FOUND_MESSAGE);
         }
-        productRepository.deleteByVideocard_Id(uuid);
+        log.debug("Motherboard was deleted: {}", productRepository.deleteByVideocard_Id(uuid));
         return true;
     }
 
@@ -82,6 +87,7 @@ public class VideocardServiceImpl implements VideocardService {
         Videocard videocard = videocardRepository.save(newVideocardMapper.toEntity(newVideocardDto));
         Product product = new Product(null, null, videocard, null, null);
         productRepository.save(product);
+        log.debug("Motherboard created: {}", product);
         return videocardMapper.toDto(videocard);
     }
 }

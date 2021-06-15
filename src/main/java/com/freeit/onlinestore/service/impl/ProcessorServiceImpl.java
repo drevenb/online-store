@@ -14,6 +14,7 @@ import com.freeit.onlinestore.repository.ProcessorRepository;
 import com.freeit.onlinestore.repository.ProductRepository;
 import com.freeit.onlinestore.service.ProcessorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 public class ProcessorServiceImpl implements ProcessorService {
@@ -38,6 +40,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     @Override
     public PageImpl getAllProcessors(Pageable pageable) {
         List<ProcessorDto> processorDtoList = processorMapper.toDto(processorRepository.findAll());
+        log.debug("Processor Dto List: {}", processorDtoList);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), processorDtoList.size());
         return new PageImpl<>(processorDtoList.subList(start, end), pageable, processorDtoList.size());
@@ -47,6 +50,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     public ProcessorDto getProcessor(UUID uuid) {
         Processor processor = processorRepository.findById(uuid)
                 .orElseThrow(() -> new DBNotFoundException(NOT_FOUND_MESSAGE));
+        log.debug("Processor is found: {}", processor);
         return processorMapper.toDto(processor);
     }
 
@@ -54,6 +58,8 @@ public class ProcessorServiceImpl implements ProcessorService {
     public ProcessorDto updateProcessor(UUID uuid, NewProcessorDto newProcessorDto) {
         Processor processor = processorRepository.findById(uuid)
                 .orElseThrow(() -> new DBNotFoundException(NOT_FOUND_MESSAGE));
+
+        log.debug("Processor is ready to update: {}", processor);
 
         processor.setName(newProcessorDto.getName());
         processor.setCoresQuantity(newProcessorDto.getCoresQuantity());
@@ -64,6 +70,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         processor.setRemainder(newProcessorDto.getRemainder());
 
         Processor updatedProcessor = processorRepository.save(processor);
+        log.debug("Processor is updated: {}", updatedProcessor);
         return processorMapper.toDto(updatedProcessor);
     }
 
@@ -72,7 +79,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         if(!processorRepository.existsById(uuid)) {
             throw new DBNotFoundException(NOT_FOUND_MESSAGE);
         }
-        productRepository.deleteByProcessor_Id(uuid);
+        log.debug("Processor was deleted: {}", productRepository.deleteByProcessor_Id(uuid));
         return true;
     }
 
@@ -81,6 +88,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         Processor processor = processorRepository.save(newProcessorMapper.toEntity(newProcessorDto));
         Product product = new Product(null, processor, null, null, null);
         productRepository.save(product);
+        log.debug("Processor created: {}", product);
         return processorMapper.toDto(processor);
     }
 }

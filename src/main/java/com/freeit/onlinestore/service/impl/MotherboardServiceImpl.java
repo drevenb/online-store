@@ -37,6 +37,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     @Override
     public PageImpl getAllMotherboards(Pageable pageable) {
         List<MotherboardDto> motherboardDtoList = motherboardMapper.toDto(motherboardRepository.findAll());
+        log.debug("Motherboard Dto List: {}", motherboardDtoList);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), motherboardDtoList.size());
         return new PageImpl<>(motherboardDtoList.subList(start, end), pageable, motherboardDtoList.size());
@@ -46,6 +47,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     public MotherboardDto getMotherboard(UUID id) {
         Motherboard motherboard = motherboardRepository.findById(id)
                 .orElseThrow(() -> new DBNotFoundException(NOT_FOUND_MESSAGE));
+        log.debug("Motherboard is found: {}", motherboard);
         return motherboardMapper.toDto(motherboard);
     }
 
@@ -53,6 +55,8 @@ public class MotherboardServiceImpl implements MotherboardService {
     public MotherboardDto updateMotherboard(UUID id, NewMotherboardDto newBoard) {
         Motherboard motherboard = motherboardRepository.findById(id)
                 .orElseThrow(() -> new DBNotFoundException(NOT_FOUND_MESSAGE));
+
+        log.debug("Motherboard is ready to update: {}", motherboard);
 
         motherboard.setName(newBoard.getName());
         motherboard.setSocket(newBoard.getSocket());
@@ -64,6 +68,7 @@ public class MotherboardServiceImpl implements MotherboardService {
         motherboard.setRemainder(newBoard.getRemainder());
 
         Motherboard updatedBoard = motherboardRepository.save(motherboard);
+        log.debug("Motherboard is updated: {}", updatedBoard);
         return motherboardMapper.toDto(updatedBoard);
     }
 
@@ -72,7 +77,7 @@ public class MotherboardServiceImpl implements MotherboardService {
         if(!motherboardRepository.existsById(id)) {
             throw new DBNotFoundException(NOT_FOUND_MESSAGE);
         }
-        productRepository.deleteByMotherboard_Id(id);
+        log.debug("Motherboard was deleted: {}", productRepository.deleteByMotherboard_Id(id));
         return true;
     }
 
@@ -81,6 +86,7 @@ public class MotherboardServiceImpl implements MotherboardService {
         Motherboard motherboard = motherboardRepository.save(newMotherboardMapper.toEntity(newBoard));
         Product product = new Product(motherboard, null, null, null, null);
         productRepository.save(product);
+        log.debug("Motherboard created: {}", product);
         return motherboardMapper.toDto(motherboard);
     }
 }

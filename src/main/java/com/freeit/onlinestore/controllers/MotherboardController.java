@@ -53,6 +53,6 @@ public class MotherboardController {
     @ApiOperation("Method to create a motherboard")
     @PostMapping
     public ResponseEntity<MotherboardDto> createMotherboard(@RequestBody NewMotherboardDto newBoard) {
-        return new ResponseEntity<>(motherboardService.saveMotherboard(newBoard), HttpStatus.OK);
+        return new ResponseEntity<>(motherboardService.saveMotherboard(newBoard), HttpStatus.CREATED);
     }
 }

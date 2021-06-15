@@ -26,6 +26,8 @@ import java.util.UUID;
 @Transactional
 public class MotherboardServiceImpl implements MotherboardService {
 
+    private final String NOT_FOUND_MESSAGE = "There is not such element in database";
+
     private final ProductRepository productRepository;
     private final MotherboardRepository motherboardRepository;
 
@@ -34,24 +36,23 @@ public class MotherboardServiceImpl implements MotherboardService {
 
     @Override
     public PageImpl getAllMotherboards(Pageable pageable) {
-        List<Motherboard> motherboardList = motherboardRepository.findAll();
-        List<MotherboardDto> motherboardDto = motherboardMapper.toDto(motherboardList);
+        List<MotherboardDto> motherboardDtoList = motherboardMapper.toDto(motherboardRepository.findAll());
         final int start = (int) pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), motherboardDto.size());
-        return new PageImpl<>(motherboardDto.subList(start, end), pageable, motherboardDto.size());
+        final int end = Math.min((start + pageable.getPageSize()), motherboardDtoList.size());
+        return new PageImpl<>(motherboardDtoList.subList(start, end), pageable, motherboardDtoList.size());
     }
 
     @Override
     public MotherboardDto getMotherboard(UUID id) {
         Motherboard motherboard = motherboardRepository.findById(id)
-                .orElseThrow(() -> new DBNotFoundException("There is not such element in database"));
+                .orElseThrow(() -> new DBNotFoundException(NOT_FOUND_MESSAGE));
         return motherboardMapper.toDto(motherboard);
     }
 
     @Override
     public MotherboardDto updateMotherboard(UUID id, NewMotherboardDto newBoard) {
         Motherboard motherboard = motherboardRepository.findById(id)
-                .orElseThrow(() -> new DBNotFoundException("There is not such element in database"));
+                .orElseThrow(() -> new DBNotFoundException(NOT_FOUND_MESSAGE));
 
         motherboard.setName(newBoard.getName());
         motherboard.setSocket(newBoard.getSocket());
@@ -69,7 +70,7 @@ public class MotherboardServiceImpl implements MotherboardService {
     @Override
     public boolean deleteMotherboard(UUID id) {
         if(!motherboardRepository.existsById(id)) {
-            throw new DBNotFoundException("There is not such element in database");
+            throw new DBNotFoundException(NOT_FOUND_MESSAGE);
         }
         productRepository.deleteByMotherboard_Id(id);
         return true;
